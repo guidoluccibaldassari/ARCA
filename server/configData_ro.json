@@ -1,0 +1,13 @@
+﻿{
+  "projectName": "CaTron",
+  "prefix":"mongodb://",
+  "host":"localhost",
+  "port":"27017",
+  "user_str":"dbu",
+  "password_str":"noned",
+  "dbName":"dataDb",
+  "authMechanism":"DEFAULT",
+  "options":"poolSize=15;connectTimeoutMS=150000",
+  "apiUrl": "http://localhost:4000",
+  "comment": "File di configurazione per tutte le connessioni al db inerente il recupero dei dati: si può utilizzare per servizi che attingono informazioni dalle collezioni dati, tra cui: US, USM, USR..."
+}

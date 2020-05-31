@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<base href="/" />
+<title>ARCA: Archiving Research Communication in Archaeology</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap css -->
+<link
+	href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet" />
+<!-- application css -->
+<!--  <link href="app.css" rel="stylesheet" /> -->
+<!-- Custom css -->
+<link href="stylesheets/style-tree.css" rel="stylesheet" />
+<link href="stylesheets/testo.css" rel="stylesheet" />
+<!-- Dubious css -->
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css"rel="stylesheet" />
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"rel="stylesheet" />
+<!-- X3Dom css-->
+<link href="stylesheets/x3dom.css" rel="stylesheet" />
+<!-- Custom less for modal window / per ora sospeso perchè da problemi ci guarderò quando migrerò a CLI -->
+<!---->
+<link href="app/_content/modal.less" rel="stylesheet/less"type="text/css" />
+<link href="app/_content/modaldocumentviewer.less" rel="stylesheet/less"type="text/css" />
+<!---->
+<!-- Compiling less should be done on the server in a production app -->
+<!---->
+<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+<!---->
+<!--
+<link href="stylesheets/modal.css" rel="stylesheet" />
+<link href="stylesheets/modaldocumentviewer.css" rel="stylesheet" />
+-->
+<!-- Workarounds for errors in index loading -->
+<script src="javascripts/jquery-3.2.1.js"></script>
+<script src="javascripts/bootstrap.bundle.min.js"></script>
+<!-- X3Dom -->
+<script src="javascripts/x3dom.js"></script>
+<!-- Custom libraries without typings -->
+<script src="javascripts/multiNestedList.js"></script>
+<!-- polyfill(s) for older browsers -->
+<script src="node_modules/core-js/client/shim.min.js"></script>
+<script src="node_modules/zone.js/dist/zone.js"></script>
+<script src="node_modules/systemjs/dist/system.src.js"></script>
+<script src="systemjs.config.js"></script>
+<script>System.import('app').catch(function (err) { console.error(err); });</script>
+</head>
+<body>
+	<title>ARCA: Archiving Research Communication in Archaeology</title>
+	<app>Loading...</app>
+</body>
+</html>

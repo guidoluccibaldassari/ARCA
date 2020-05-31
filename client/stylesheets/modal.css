@@ -1,0 +1,17 @@
+.modal {
+	display: none;
+	position: fixed;
+	padding-top: 10px;
+	padding-left: 200px;
+	overflow: auto;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+	width: 100%;
+	hight: 100%;
+	background-color: #fefefe;
+	margin: auto;
+	padding: 5px;
+}

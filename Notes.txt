@@ -1,0 +1,2 @@
+Appunti vari.
+Per spostare una directory node_modules in ambiente linux e sperare che il sistema funzioni, occorre usare cp -a invece cp -R.

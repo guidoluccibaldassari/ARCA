@@ -1,0 +1,158 @@
+﻿
+<header class="header" id class="data-animate-header-container">
+	<!-- [data-animate-header] - this is the actual element that will be fixed/animated -->
+	<menu class="header-bar" data-animate-header>
+		<a href="#menu" class="btn-menu" data-toggle-class="menu-active">A.R.C.A. Project is:
+			<br>
+			<span class="txt-rotate" data-period="2000" data-rotate='[ "Archiving", "Research", "Communication", "Archaeology"]'></span>
+		</a>
+		<a href="#" class="btn-menu" data-toggle-class="home-active"> ACCESSO AUTENTICATO <i class="fa fa-key" aria-hidden="true"></i></a>
+	</menu>
+</header>
+<!--<div class="container" style="heigth=100%">-->
+	<!-- <div class="row" style="height:100%"> -->
+	<div class="row">
+		<title>Ricerca sulla base dati</title>
+		<!--<div class="col-md-4" style="width:20%;height:100%;border:1px solid #cecece;">-->
+		<div class="col-md-4">
+			<br>
+			<h2> <i class="fa fa-database" aria-hidden="true"></i> BASE di <font color="FF0000">DATI</font></h2>
+			<br>
+			<h4>Naviga all'interno dei</h4>
+			<h4><b>NODI GEOGRAFICI</b>:</h4>		
+			<workareatreeComponent>
+				loading...
+			</workareatreeComponent>
+			<br>
+			<h4>Naviga all'interno dei</h4>
+			<h4><b>NODI DATI</b>:</h4><br>
+			<div *ngFor="let storedvalue of sidebarlinkssettingslocalstorage" (click)="loadSearchPageIF(this,storedvalue);">
+				<div class="Sottomenu"> Ricerca per: <a>{{storedvalue | UnderscoreToBlankSpaces}}</a></div><br>
+			</div>
+		</div>
+		<!--<div class="col-md-8" style="width:80%;height:100%;border:1px solid #cecece;">-->
+		<div class="col-md-8">
+			<!--<div class="row" style="height:100%">-->
+			<div class="row">
+				<!--<h1>Area di ricerca:</h1>-->
+				<br>
+				<div *ngIf="vistaIniziale===1">
+					<h4>{{this.currentUserData.Cognome}} {{this.currentUserData.Nome}} ({{this.currentUserData.Username}}) benvenuto! </h4>
+					<h4> Questa è la pagina di consultazione del <b>Progetto Ca' Tron</b></h4>
+					<hr>
+					<h5> Per iniziare la navigazione selezionare una delle <b>voci nel menu laterale</b>, oppure</h5>
+					<br>
+			<h5> Visualizza la mappa <a (click)="openModal('hintViewer')"> <b> mappa del sito</b> <i class="fa fa-sitemap"></i></a></h5>
+					<modal id="hintViewer">
+						<div class="modal">
+							<div class="modal-body">
+								<div class="container" style= "height:100%; width: 100%" background-color="white">
+									<h4 align= "center"> <b> Mappa del sito </b></h4>
+									<br> <br>
+									<p align= "center" text-align= "justify"> <b>!Per poter fare ricerche all'interno del sito è necessario effettuare l'accesso autenticato!</b> <br> <br> <br>Il sito web è visivamente suddiviso in due parti distinte: nella parte sinistra sono presenti i menù di navigazione mentre nella parte destra saranno visualizzati i form per le ricerche, i risultati e le schede di dettaglio.
+<br> <br> <img src="../../images/STRUTTURA_PAGINA_ARCA.jpg" width="500" height="340"/> <br> <br> <br> Nello specifico sono presenti due menù: il primo, situato nella parte superiore, è un “menù ad albero” che si apre in modo dinamico e richiama la suddivisione e la gerarchia logica di scavo del Progetto Ca’Tron.
+<br> Il Progetto ha infatti previsto numerose campagne di ricognizione sul terreno e solo successivamente l’apertura di alcuni scavi archeologici.
+<br>Si possono dunque vedere <i>in primis</i> le 11 Unità di Ricognizione <b> UR </b>, una sorte di nodi radice da cui partono una serie di rami: quando presenti, le Unità Territoriali <b> UT </b>(che coincidono con la suddivisione agraria in campi) che sono risultate più “interessanti”, a seguire i <b> Siti </b> archeologici in esse contenuti, individuati prima e durante le ricognizioni di superficie, suddivisi a loro volta in <b> Saggi </b> di scavo.
+<br> <br> <img src="../../images/img_1_modal.jpg" width="500" height="340"/> <br> <br> Per ognuna di queste entità è presente una scheda descrittiva e i campi entro cui fare ricerca, visibili nella parte superiore.
+<br> L’elenco dei risultati successivi alla ricerca potrà essere visualizzato dopo la scheda descrittiva. <br><br>Il secondo menù, posto al di sotto di quello ad albero, è strutturato diversamente e consiste in una serie di nodi dati linkabili. Una volta selezionati si aprirà, nella parte di destra, un form con le voci entro cui si può fare ricerca. <br>I nodi dati sono suddivisi per Ca’Tron in Unità Stratigrafiche <b> US </b>, Reperti Archeologici <b> RA </b> e <b> Documento </b>. <br> <br> Ogni scheda di dettaglio che verrà aperta potrà essere ulteriormente navigata attraverso i <u>link</u> in essa contenuti. <br><br> <br>Buona navigazione!
+</p>
+								 </div>
+							</div>
+						</div>
+						<div class="modal-background"></div>
+					</modal>
+					<!-- -->
+				</div>
+				<div *ngIf="ricercaGlobalePerCollezioni===1">
+					<h3>Campi per la ricerca globale sulla collezione <b><ng-container>{{globalsearchtarget}}</ng-container></b>:</h3>
+					<form #f="ngForm" (ngSubmit)="onSearchSubmit(this);" method="POST">
+						<div *ngFor="let storedvalue of searchindexedfieldlocalstorage; index as i">
+							<p></p>
+							<div title={{storedvalue[1]}}>{{storedvalue[0] | UnderscoreToBlankSpaces}}</div>
+							<input type="text" [(ngModel)]="globalsearchqueryarguments[i+1][1]" name="globalsearchqueryarguments[i+1][0]">
+						</div>
+						<p></p>
+						<p><button type="submit">Cerca</button></p>
+					</form>
+				</div>
+				<div *ngIf="ricercaPerNodiGeografici===1">
+					<h3> Nodo geografico <b>
+					<ng-container>{{nomeNodoGeografico}}</ng-container></b>:</h3>
+					<div *ngIf="linksFormNodiGeografici===1">
+						<h4> All'interno del <font color="800000"> nodo </font> è possibile fare ricerca su: </h4>
+						<h4><b *ngFor="let storedvalue of collezioniNG; index as i"> <a (click)="subFormUpdate(this,storedvalue)">{{storedvalue | UnderscoreToBlankSpaces}}</a><i *ngIf="((i<collezioniNG.length-1))">, </i></b> </h4>
+						<br>
+					</div>
+					<div *ngIf="formNodiGeografici===1">
+						<subformComponent [(localCNg)]="collezioneSelezionata"></subformComponent>
+					</div>
+					<embeddedDetailsComponent [localKeys]="cameraReadyRetKeysDetNG" [localValues]="cameraReadyRetValuesDetNG"></embeddedDetailsComponent>
+				</div>
+			</div>
+			<!--<div class="row" style="height:20%;width:80%">-->
+			<div class="row">
+				<div *ngIf="ricercaInviata===1"><br>
+					<h4><b>Elenco risultati:</b></h4>
+					<table span="4" *ngFor="let storedvalue of queryresultsdetailsserialized; index as i;" (click)="openDetailsPage(this,i)">
+						<a>
+						<tr span="4">
+							<td span="1">
+								<!--
+								<div *ngFor= "let numberone of 
+								(Array.apply(null,{length:(this._environmentService.getGlobalResultsElementsLineNumberEnv())}).map(Function.call, Number));"
+								>
+								{{this._environmentService.getGlobalResultsElementsLineNumberEnv()}}
+								-->
+								<b *ngIf="i%4==0">{{storedvalue | UnderscoreToBlankSpaces}}:</b>
+								<i *ngIf="i%4==1">{{storedvalue | UnderscoreToBlankSpaces}}</i>
+								<b *ngIf="i%4==2">{{storedvalue | UnderscoreToBlankSpaces}}:</b>
+								<i *ngIf="i%4==3">{{storedvalue | UnderscoreToBlankSpaces}}</i>
+								<!--
+								</div>
+								-->
+							</td>
+						</tr>
+						</a>
+						<tr *ngIf="((i+1)%(this._environmentService.getGlobalResultsElementsLineNumberEnv()*2) == 0)&&(i>1)"><p></p><hr></tr>
+					</table>
+				</div>
+			</div>
+			<!--<div class="row" style="height:20%;width:80%">-->
+			<div class="row">
+				<div *ngIf="ricercaLocaleInviata===1"><br>
+					<h4><b>Elenco risultati:</b></h4>
+					<table span="4" *ngFor="let storedvalue of queryResultsDetailsSerializedEnv; index as i;" (click)="openDetailsPage(this,i)">
+						<a>
+						<tr span="4">
+							<td span="1">
+								<!--
+								<div *ngFor="let number of (Array.apply(null, {length: (this.globalresultselementslinenumber)}).map(Function.call, Number));">
+								-->
+								<b *ngIf="i%4==0">{{storedvalue | UnderscoreToBlankSpaces}}:</b>
+								<i *ngIf="i%4==1">{{storedvalue | UnderscoreToBlankSpaces}}</i>
+								<b *ngIf="i%4==2">{{storedvalue | UnderscoreToBlankSpaces}}:</b>
+								<i *ngIf="i%4==3">{{storedvalue | UnderscoreToBlankSpaces}}</i>
+								<!--
+								</div>
+								-->
+							</td>
+						</tr>
+						</a>
+						<tr *ngIf="((i+1)%(this._environmentService.getGlobalResultsElementsLineNumberEnv()*2) == 0)&&(i>1)"><p></p><hr></tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--
+	<div class="row" style="heigth=33%">
+		<div class="col-md-6 col-md-offset-0" style="border:1px solid #cecece;">
+			<p>
+				<a [routerLink]="['/']">Go back to home</a>
+			</p>
+		</div>
+	</div>
+	-->
+<!--
+</div>
+-->

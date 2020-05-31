@@ -1,0 +1,173 @@
+npm WARN @angular/common@4.4.6 requires a peer of @angular/core@4.4.6 but none is installed. You must install peer dependencies yourself.
+npm WARN @angular/compiler@4.4.6 requires a peer of @angular/core@4.4.6 but none is installed. You must install peer dependencies yourself.
+npm WARN @angular/forms@4.4.6 requires a peer of @angular/core@4.4.6 but none is installed. You must install peer dependencies yourself.
+npm WARN @angular/http@4.4.6 requires a peer of @angular/core@4.4.6 but none is installed. You must install peer dependencies yourself.
+npm WARN @angular/platform-browser@4.4.6 requires a peer of @angular/core@4.4.6 but none is installed. You must install peer dependencies yourself.
+npm WARN @angular/platform-browser-dynamic@4.4.6 requires a peer of @angular/core@4.4.6 but none is installed. You must install peer dependencies yourself.
+npm WARN @angular/router@4.4.6 requires a peer of @angular/core@4.4.6 but none is installed. You must install peer dependencies yourself.
+
+
+
+"Module not already loaded loading "pdfjs-dist/build/pdf" as 
+http://localhost:3000/node_modules/build/pdf.js.  
+Evaluating http://localhost:3000/node_modules/ng2-pdf-viewer/bundles/ng2-pdf-viewer.umd.js  
+Evaluating http://localhost:3000/app/app.module.js  
+Evaluating http://localhost:3000/app/main.js  Loading app"
+
+
+
+
+
+
+
+
+
+
+
+
+ngOnInit() {
+    this.route.params.subscribe(params => {
+	  var ap = [];
+	  ap.push(params[0]);
+	  ap.push(params[1]);
+	  //console.log(ap);
+	  this.retriveDetails(this,ap);
+	});
+    this.route.params.subscribe(params => {
+	  var ap = [];
+	  ap.push(params[0]);
+	  ap.push(JSON.parse(params[1]));
+	  ap.push('queryDbForChildren');
+	  //console.log(ap);
+	  this.retriveChildrenData(this,ap);
+	});
+  }
+  
+  retriveDetails(parent: any, ap: any) {
+	this.detailviewerService.getDetailsFromOID(ap).subscribe(
+      function (response) {
+	    var tmp_json=((<any>response)._body);
+        if (tmp_json == null) {return;}
+        var processed_json=JSON.parse(tmp_json);
+        for (var i=0; i< processed_json.length; i++){
+          var tmp_ObjArrayK = [];
+          var tmp_ObjArrayV = [];
+          var tmp_ObjArrayK_cr = [];
+          var tmp_ObjArrayV_cr = [];
+          for (let key in processed_json[i]){
+			let value = processed_json[i][key];
+			//clean values
+			/*if ((key == '_id')||(key == 'Discende_Da')) {
+			  tmp_ObjArrayK.push(key);
+			  tmp_ObjArrayV.push(value);
+			}
+			else {*/
+			  tmp_ObjArrayK.push(JSON.stringify(key));
+			  tmp_ObjArrayV.push(JSON.stringify(value));
+			//}
+			//cr
+			if (key == '_id') {continue;}
+			if (key == 'Accesso') {continue;}
+			if (key == 'Logical_Delete') {continue;}
+			/*
+			if (value == null) {
+				tmp_ObjArrayK_cr.push(JSON.stringify(key));
+				tmp_ObjArrayV_cr.push('Nessuna informazione da visualizzare.');
+				continue;
+			}*/
+			if ((value == null)||(value === ' ')||(value === '')) {continue;}
+			//tmp_ObjArrayK_cr.push(JSON.stringify(key));
+			//tmp_ObjArrayV_cr.push(JSON.stringify(value));
+			tmp_ObjArrayK_cr.push(key);
+			if (key == 'Path') {
+			  tmp_ObjArrayV_cr.push(value);
+			  if(((value.substr(value.length-5).split('.').pop())=='X3D')||((value.substr(value.length-5).split('.').pop())=='x3d')){
+				parent.importX3d();
+				if(window['x3dom'] != undefined){
+				  window['x3dom'].reload();
+				  console.log('loaded x3d');
+				}	
+			  }
+			}
+			else {tmp_ObjArrayV_cr.push(JSON.stringify(value));}
+		  }
+		}
+	    parent.localRetKeys=tmp_ObjArrayK;
+	    parent.localRetValues=tmp_ObjArrayV;
+	    //console.log(parent.localRetKeys);
+	    //console.log(parent.localRetValues);
+	    parent.cameraReadyRetKeys=tmp_ObjArrayK_cr;
+	    parent.cameraReadyRetValues=tmp_ObjArrayV_cr;
+	    //Ottenuti i dettagli da qui lancio la query per i figli -- fuori funziona - qui no
+	    /*
+	    parent.route.params.subscribe((params:any) => {
+		  var ap_c = [];
+		  ap_c.push(params[0]);
+		  ap_c.push(JSON.parse(params[1]);
+	      ap_c.push('queryDbForChildren');
+		  console.log(ap_c);
+		  parent.retriveChildrenData(this,ap_c);
+		});
+		*/
+	    //Ottenuti i dettagli da qui lancio la query per il genitore
+	    /*
+	    parent.route.params.subscribe((params:any) => {
+		  var ap_p = [];
+		  ap_p.push(params[0]);
+		  for (var j=0;j<parent.localRetKeys.length;j++) {
+			//console.log(parent.localRetKeys[j] + '   -   ' + parent.localRetValues[j]);
+			//console.log(parent.localRetKeys[j]);
+			if (parent.localRetKeys[j] == 'Discende_Da'){
+			  var value = parent.localRetValues[j];
+			  ap_p.push(value);
+			}
+		  }
+		  ap_p.push('queryDbForParentInfo');
+		  //console.log(ap_p);
+		  if(ap_p[1]=='root'){return;}
+		  parent.retriveParentData(this,ap_p);
+		});*/
+      }
+    );
+  }
+  
+/*  
+Al momento del mio arrivo su una pagina di dettaglio io oltre ad estrarre i dettagli veri e propri, ho il mio id che uso per cercare lungo il db tutti i miei discendenti, e mi immagazzino:
+-collezione
+-nome
+-id
+id lo uso per impostare nuova navigazione.
+*/
+  
+  retriveChildrenData(parent: any, ap: any) {
+	this.detailviewerService.getAllChildrenDataFromAllCollUsingOID(ap).subscribe(
+      function (response) {
+	    var tmp_json=((<any>response)._body);
+        if (tmp_json == null) {return;}
+        var vettore_collezioni = [];
+        var vettore_di_vettori_di_oggetti = [];
+        var processed_json=JSON.parse(tmp_json);
+        for (var i=0; i< processed_json.length; i++){
+		  if (typeof(processed_json[i]['Collection'])!== 'undefined'){vettore_collezioni.push(processed_json[i]['Collection'])}
+		  else if (processed_json[i].length!==0){vettore_di_vettori_di_oggetti.push(processed_json[i]);}
+		}
+		parent.childrenCollections=vettore_collezioni;
+		parent.childrenList=vettore_di_vettori_di_oggetti;
+		console.log(parent.childrenCollections);
+		console.log(parent.childrenList);
+      }
+    );
+  }
+
+  retriveParentData(parent: any, ap: any) {
+	this.detailviewerService.getParentDataUsingOID(ap).subscribe(
+      function (response) {
+	    var tmp_json=((<any>response)._body);
+        if (tmp_json == null) {return;}
+        var vettore_collezioni = [];
+        var vettore_di_vettori_di_oggetti = [];
+        var processed_json=JSON.parse(tmp_json);
+        console.log(processed_json);
+      }
+    );
+  }

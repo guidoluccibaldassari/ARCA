@@ -1,0 +1,13 @@
+﻿{
+  "projectName": "CaTron",
+  "prefix":"mongodb://",
+  "host":"localhost",
+  "port":"27017",
+  "user_str":"dbm",
+  "password_str":"567890a",
+  "dbName":"dataDb",
+  "authMechanism":"DEFAULT",
+  "options":"poolSize=15;connectTimeoutMS=150000",
+  "apiUrl": "http://localhost:4000",
+  "comment": "File di configurazione per tutte le connessioni al db inerente il funzionamento appicativo: si può utilizzare per servizi che attingono informazioni dalle collezioni: classes, structure, settings. Users per chiarezza implementativa, ha un file di configurazione separato. Il suffisso _rw indica la peculiarità dell'accesso: readwrite. I ruoli in questo caso definiscono la politica ro-rw-admin, non la visibilità dei dati! - attenzione la connectionString non è componibile direttamente qui dentro, occorre ricomporla fuori."
+}

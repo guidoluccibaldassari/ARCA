@@ -1,0 +1,134 @@
+<!--<div class="container" style="width=100% heigth=100%">-->
+<div class="container">
+	<!--<div class="row" style="width=100%">-->
+	<div class="row">
+		<div class="col-md-8 col-md-offset-3" style="border:1px solid #A9A9A9;">		
+			<div class="container-md-8">
+				<div class="row" style="border:1px solid #A9A9A9;">				
+					<div class="col-md-3">
+						<a [routerLink]="['/']">HOME</a>
+					</div>
+					<div class="col-md-2"> </div>
+					<div class="col-md-4">
+						<a [routerLink]="['/database']">Torna alla pagina di RICERCA</a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>	
+	<!--<div class="row" style="width=100%">-->
+	<div class="row">
+		<title>Scheda di dettaglio</title>
+	</div>
+	<!--<div class="row" style="width=100%">-->
+	<div class="row">
+		<div class="col-md-8 col-md-offset-3" style="border:1px solid #A9A9A9;">
+			<div class="container-md-8">
+				<div *ngFor="let storedrow of localRetRows;">
+					<div class="row" style="border:1px solid #cecece;">
+						<div class="col-md-4">
+							<div *ngIf="((storedrow.key!='_id')&&(storedrow.key!='Accesso')&&(storedrow.key!='Logical_Delete')&&(storedrow.key!='Discende_Da')&&(storedrow.key!='Per_Visualizzazione'))">
+								<h4>{{storedrow.key | UnderscoreToBlankSpaces}} : </h4>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div *ngIf="storedrow.key!='Path'; else path">
+								<div *ngIf="((storedrow.key!='_id')&&(storedrow.key!='Accesso')&&(storedrow.key!='Logical_Delete')&&(storedrow.key!='Discende_Da')&&(storedrow.key!='Per_Visualizzazione'))">
+									<div *ngIf="storedrow.type==0;">{{storedrow.values | UnderscoreToBlankSpaces}}</div>
+									<div *ngIf="storedrow.type==4;">{{storedrow.values | UnderscoreToBlankSpaces}}</div>
+									<div *ngIf="storedrow.type==1;"><a (click)="openDetailsPage(storedrow.links[1],storedrow.links[0])">{{storedrow.values | UnderscoreToBlankSpaces}}</a></div>
+									<div *ngIf="storedrow.type==2;">
+										<div *ngFor="let values of storedrow.values; index as j">
+											<a (click)="openDetailsPage(storedrow.links[j][1],storedrow.links[j][0])">{{values | UnderscoreToBlankSpaces}}</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<ng-template #path ><a (click)="openModalDocument(this)"><b>Visualizza il documento</b></a></ng-template>
+						</div>
+					</div>
+				</div>
+				<div *ngFor="let storedkey of childrenCollections; index as i;">
+					<div class="row" style="border:1px solid #cecece;">
+						<div class="col-md-4">
+							<h4>{{storedkey | UnderscoreToBlankSpaces}} : </h4> 
+						</div>
+						<div class="col-md-4">
+							<div *ngFor="let storedkey_inner of childrenList[i]; index as j;">
+								<a (click)="openDetailsPage(storedkey,storedkey_inner['_id'])">{{storedkey_inner["Per_Visualizzazione"] | UnderscoreToBlankSpaces}}</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div *ngFor="let storedkey of parentsCollections; index as i;">
+					<div class="row" style="border:1px solid #cecece;">
+						<div class="col-md-4">
+							<h4>Nodi Genitori : </h4> 
+						</div>
+						<div class="col-md-4">
+							<div *ngFor="let storedkey_inner of parentsList[i]; index as j;">
+								<a (click)="openDetailsPage(storedkey,storedkey_inner['_id'])">{{storedkey_inner["Per_Visualizzazione"] | UnderscoreToBlankSpaces}}</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<modal id="documentViewer">
+		<div class="modal">
+			<div class="modal-body">
+				<div *ngFor="let storedrow of localRetRows; index as i;">
+					<div class="row">
+						<!-- <div *ngIf="storedrow.key=='Nome_Documento'"><h3>{{cameraReadyRetValues[i]}}</h3></div> -->
+						<div *ngIf="storedrow.key=='Path'">
+							<button (click)="closeModal('documentViewer');">X</button>
+							<div *ngIf="(storedrow.values.substr(storedrow.values.length-5).split('.').pop())=='jpg'">
+								<img class="img-responsive" height="80%" width="80%" position="center" src={{storedrow.values}}>
+							</div>
+							<div *ngIf="(storedrow.values.substr(storedrow.values.length-5).split('.').pop())=='JPG'">
+								<img class="img-responsive" height="80%" width="80%" position="center" src={{storedrow.values}}>
+							</div>
+							<div *ngIf="(storedrow.values.substr(storedrow.values.length-5).split('.').pop())=='x3d'">
+								<x3d height="600px" width="600px">
+									<scene>
+										<navigationInfo id='navigation' speed='4' type='examine' headlight='true'></navigationInfo>
+										<Background skyColor='0.5 0.5 0.5'></Background>
+										<DirectionalLight direction='-0.8 -0.9 0.3'></DirectionalLight>
+										<viewpoint id='viewpointHome' description='viewpointHome' centerOfRotation='0 0 0' orientation='-0.829334 0.497502 0.254354 1.104887' position='2.118408 76.940170 54.102711'></viewpoint>
+										<inline id="storedrow.values" [attr.url]="storedrow.values"> </inline>
+									</scene>
+								</x3d>
+							</div>
+							<div *ngIf="(storedrow.values.substr(storedrow.values.length-5).split('.').pop())=='X3D'">
+								<x3d height="600px" width="600px">
+									<scene>
+										<navigationInfo id='navigation' speed='4' type='examine' headlight='true'></navigationInfo>
+										<Background skyColor='0.5 0.5 0.5'></Background>
+										<DirectionalLight direction='-0.8 -0.9 0.3'></DirectionalLight>
+										<viewpoint id='viewpointHome' description='viewpointHome' centerOfRotation='0 0 0' orientation='-0.829334 0.497502 0.254354 1.104887' position='2.118408 76.940170 54.102711'></viewpoint>
+										<inline id="storedrow.values[i]" [attr.url]="storedrow.values[i]"> </inline>
+									</scene>
+								</x3d>
+							</div>
+							<div *ngIf="(storedrow.values.substr(storedrow.values.length-5).split('.').pop())=='pdf'">
+								<!--
+								<pdf-viewer [src]="storedrow.values" [render-text]="true"></pdf-viewer>
+								-->
+								In progress!
+							</div>
+							<div *ngIf="(storedrow.values.substr(storedrow.values.length-5).split('.').pop())=='PDF'">
+								<!--
+								<pdf-viewer [src]="storedrow.values" [render-text]="true"></pdf-viewer>
+								-->
+								In progress!
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-background"></div>
+	</modal>
+</div>
