@@ -21,7 +21,7 @@
 		"@types/bootstrap": "^3.3.39",
 		"@types/jquery": "^3.3.5",
 		"@types/underscore": "^1.8.8",
-		"angular": "^1.7.3",
+		"angular": "^1.8.0",
 		"bootstrap": "^3.3.7",
 		"commonjs": "0.0.1",
 		"core-js": "^2.5.7",
