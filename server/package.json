@@ -11,7 +11,7 @@
         "body-parser": "^1.18.2",
         "cors": "^2.8.4",
         "express": "^4.16.2",
-        "express-jwt": "^3.0.1",
+        "express-jwt": "^6.0.0",
         "jsonwebtoken": "^5.0.2",
         "lodash": "^3.10.0",
         "mongodb": "^3.0.2",
