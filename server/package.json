@@ -12,7 +12,7 @@
         "cors": "^2.8.4",
         "express": "^4.16.2",
         "express-jwt": "^3.0.1",
-        "jsonwebtoken": "^5.0.2",
+        "jsonwebtoken": "^9.0.0",
         "lodash": "^3.10.0",
         "mongodb": "^3.0.2",
         "mongoskin": "^2.1.0",
